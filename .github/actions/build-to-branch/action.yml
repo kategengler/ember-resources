@@ -12,6 +12,10 @@ inputs:
   token:
     description: 'A Github token with write access to the repository'
     required: true
+  working-directory:
+    description: 'Directory in which to run the pack command'
+    required: false
+    default: './'
 
 runs:
   using: "composite"
@@ -19,12 +23,15 @@ runs:
     - name: 'Pack'
       shell: 'bash'
       run: ${{ inputs.pack-command }}
+      working-directory: ${{ inputs.working-directory }}
     - name: 'Make tmpdir'
       shell: 'bash'
       run: mkdir -p tmp/dist-action
+      working-directory: ${{ inputs.working-directory }}
     - name: 'Unpack'
       shell: 'bash'
       run: tar -xvzf *.tgz -C tmp/dist-action
+      working-directory: ${{ inputs.working-directory }}
     - name: 'Upload published package contents to branch'
       shell: 'bash'
       run: |
@@ -35,3 +42,4 @@ runs:
         git add .
         git commit -m "Publish dist for ${{ github.sha }}"
         git push --force "https://${{ inputs.token }}@github.com/${{ github.repository }}" main:${{ inputs.branch }}
+      working-directory: ${{ inputs.working-directory }}
