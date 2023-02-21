@@ -5,7 +5,7 @@ inputs:
     description: 'Command to generate the package tarball'
     required: false
     default: 'npm pack'
-  branch-name:
+  branch:
     description: 'Branch name to publish to'
     required: false
     default: 'dist'
@@ -34,4 +34,4 @@ runs:
         git config user.email "github-actions[bot]@users.noreply.github.com"
         git add .
         git commit -m "Publish dist for ${{ github.sha }}"
-        git push --force "https://${{ inputs.token }}@github.com/${{ github.repository }}" main:${{ inputs.branch-name }}
+        git push --force "https://${{ inputs.token }}@github.com/${{ github.repository }}" main:${{ inputs.branch }}
