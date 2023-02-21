@@ -1,0 +1,19 @@
+name: Build dist
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-dist:
+    name: Build dist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/pnpm
+      - uses: ./.github/actions/build-to-branch
+        with:
+          branch: dist
+          token: ${{ secrets.GITHUB_TOKEN }}

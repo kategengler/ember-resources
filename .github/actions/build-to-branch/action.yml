@@ -1,0 +1,37 @@
+name: Publish Built package to a branch
+description: Build each commit and publish to a branch
+inputs:
+  pack-command:
+    description: 'Command to generate the package tarball'
+    required: false
+    default: 'npm pack'
+  branch-name:
+    description: 'Branch name to publish to'
+    required: false
+    default: 'dist'
+  token:
+    description: 'A Github token with write access to the repository'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'Pack'
+      shell: 'bash'
+      run: ${{ inputs.pack-command }}
+    - name: 'Make tmpdir'
+      shell: 'bash'
+      run: mkdir -p tmp/dist-action
+    - name: 'Unpack'
+      shell: 'bash'
+      run: tar -xvzf *.tgz -C tmp/dist-action
+    - name: 'Upload published package contents to branch'
+      shell: 'bash'
+      run: |
+        cd tmp/dist-action/package
+        git init
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "Publish dist for ${{ github.sha }}"
+        git push --force "https://${{ inputs.token }}@github.com/${{ github.repository }}" main:${{ inputs.branch-name }}
