@@ -16,5 +16,5 @@ jobs:
       - uses: ./.github/actions/build-to-branch
         with:
           branch: dist
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           working-directory: ember-resources

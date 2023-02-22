@@ -10,7 +10,7 @@ inputs:
     required: false
     default: 'dist'
   token:
-    description: 'A Github token with write access to the repository'
+    description: 'A Github token with write access to the repository contents'
     required: true
   working-directory:
     description: 'Directory in which to run the pack command'
