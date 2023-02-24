@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/pnpm
-      - uses: kategengler/put-built-npm-package-contents-on-branch@v0.0.2
+      - uses: kategengler/put-built-npm-package-contents-on-branch@v1.0.0
         with:
           branch: dist
           token: ${{ secrets.PAT }}
